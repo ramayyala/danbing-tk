@@ -1062,9 +1062,6 @@ void CountWords(void *data) {
 					if (verbosity >= 3) { cerr << "Read threaded: " << feasibility0 << feasibility1 << endl; }
 				}
 				// write new kmers
-				for (int &i: diff1) {
-					std::cout << i << ' ';
-    			}
 
 				if ((threading and feasibility0 and feasibility1) or not threading) {
 					kmer_aCount_umap &trKmers = trResults[destLocus];
