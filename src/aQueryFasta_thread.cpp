@@ -508,9 +508,8 @@ bool find_anchor(GraphType& g, vector<size_t>& kmers, bool aln, vector<char>& op
 }
 
 // finding difference between non-canonical kmers and RPGG kmers  
-std::vector<size_t> findDiff(vector<size_t>& noncakmers, GraphType& graphDB) {
+std::vector<size_t> findDiff(vector<size_t>& noncakmers, GraphType& graphDB){
 	std::vector<size_t> diff;
-
 	// loop through each element in vector
 	for (int i=0; i<noncakmers.size(); i++) {
 		//if graphDB.find(element) != graphDB.end()
@@ -521,8 +520,11 @@ std::vector<size_t> findDiff(vector<size_t>& noncakmers, GraphType& graphDB) {
 		// else
 		else {
 			// kmer found, so do nothing 
-			std::cout <<"Key Found";
-		}	
+			std::cout <<"Kmer Found";
+		}
+
+	}
+	return diff;
 }
 
 // 0: not feasible, 1: feasible, w/o correction, 2: feasible w/ correction
