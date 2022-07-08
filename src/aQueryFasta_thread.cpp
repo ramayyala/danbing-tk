@@ -1062,9 +1062,9 @@ void CountWords(void *data) {
 						// write new kmers 
 						// by vector<GraphType> graphDB creates a vector containing an unordered map, by indexing by the destLocus, we get the unordered map of that locus
 						std::vector<size_t> diff1=findDiff(noncakmers0,graphDB[destLocus]);
-						//for (int &i: diff1) {
-						std::cout << diff1 << ' ';
-						//}
+						for (int i=0; i<diff1.size(); i++) {
+							std::cout << diff1.at(i) << ' ';
+						}
 
 					}
 					if (verbosity >= 3) { cerr << "Read threaded: " << feasibility0 << feasibility1 << endl; }
