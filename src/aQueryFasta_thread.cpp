@@ -1061,10 +1061,11 @@ void CountWords(void *data) {
 						noncaVec2CaUmap(noncakmers1, cakmers, ksize);
 					}
 					if (verbosity >= 3) { cerr << "Read threaded: " << feasibility0 << feasibility1 << endl; }
+					// write new kmers
+					std::vector<size_t> diff1; 
+					diff1=findDiff(noncakmers0,graphDB);
 				}
-				// write new kmers
-				std::vector<size_t> diff1; 
-				diff1=findDiff(noncakmers0,graphDB)
+				
 
 				if ((threading and feasibility0 and feasibility1) or not threading) {
 					kmer_aCount_umap &trKmers = trResults[destLocus];
