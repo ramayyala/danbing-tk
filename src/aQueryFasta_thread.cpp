@@ -513,7 +513,7 @@ std::vector<size_t> findDiff(vector<size_t>& noncakmers, vector<GraphType>& grap
 	// loop through each element in vector
 	for (int i=0; i<noncakmers.size(); i++) {
 		//if graphDB.find(element) != graphDB.end()
-		if (graphDB->find(noncakmers[i]) == graphDB->end()) {
+		if (graphDB.find(noncakmers[i]) == graphDB.end()) {
 			// append element to the diff vector
 			diff.push_back(noncakmers[i]);
 		}
