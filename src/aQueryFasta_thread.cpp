@@ -513,7 +513,7 @@ std::vector<size_t> findDiff(vector<size_t>& noncakmers, vector<GraphType>& grap
 	std::sort(noncakmers.begin(),noncakmers.end());
 	std::sort(graphDB.begin(),graphDB.end());
 	std:set_difference(noncakmers.begin(),noncakmers.end(),graphDB.begin(),graphDB.end(),std::back_inserter(diff));
-	return diff
+	return diff;
 }
 	// loop through each element in vector
 	//for (int i=0; i<noncakmers.size(); i++) {
