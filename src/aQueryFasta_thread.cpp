@@ -1062,7 +1062,7 @@ void CountWords(void *data) {
 						// write new kmers
 						std::vector<size_t> diff1; 
 						// graphDB is a vector while we need it to be an unordered map, ASK TONY for help here
-						diff1=findDiff(noncakmers0,graphDB[destLocus])
+						diff1=findDiff(noncakmers0,graphDB[destLocus]);
 					}
 					if (verbosity >= 3) { cerr << "Read threaded: " << feasibility0 << feasibility1 << endl; }
 					;
