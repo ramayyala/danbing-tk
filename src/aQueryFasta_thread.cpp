@@ -515,11 +515,11 @@ std::vector<size_t> findDiff(vector<size_t>& noncakmers, vector<GraphType>* grap
 		//if graphDB.find(element) != graphDB.end()
 		if (graphDB.find(noncakmers[i]) == graphDB.end()) {
 			// append element to the diff vector
-			diff.push_back(noncakmers[i])
+			diff.push_back(noncakmers[i]);
 		}
 		// else
 		else {
-			// kmer not found, so do nothing 
+			// kmer found, so do nothing 
 			std::cout <<"Key Found";
 		}	
 	}
@@ -1062,8 +1062,6 @@ void CountWords(void *data) {
 					if (verbosity >= 3) { cerr << "Read threaded: " << feasibility0 << feasibility1 << endl; }
 				}
 				// write new kmers
-				diff1=findDiff(noncakmers0, graphDB)
-				//diff2=findDiff(noncakmers0, graphDB)
 				for (int &i: diff1) {
 					std::cout << i << ' ';
     			}
