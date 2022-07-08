@@ -511,7 +511,7 @@ bool find_anchor(GraphType& g, vector<size_t>& kmers, bool aln, vector<char>& op
 std::vector<size_t> findDiff(vector<size_t>& noncakmers, vector<GraphType>& graphDB) {
 	std::vector<size_t> diff;
 	std::sort(noncakmers.begin(),noncakmers.end());
-	std::sort(graphDB.begin(),noncakmers.end());
+	std::sort(graphDB.begin(),graphDB.end());
 	std:set_difference(noncakmers.begin(),noncakmers.end(),graphDB.begin(),graphDB.end(),std::back_inserter(diff));
 	return diff
 }
