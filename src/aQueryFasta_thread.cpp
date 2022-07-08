@@ -507,6 +507,28 @@ bool find_anchor(GraphType& g, vector<size_t>& kmers, bool aln, vector<char>& op
 	return 1;
 }
 
+// finding difference between non-canonical kmers and RPGG kmers  
+std::vector<size_t> findDiff(vector<size_t>& noncakmers, vector<GraphType>& graphDB) {
+	std::vector<size_t> diff;
+	std::sort(noncakmers.begin(),noncakmers.end());
+	std::sort(graphDB.begin(),noncakmers.end());
+	std:set_difference(noncakmers.begin(),noncakmers.end(),graphDB.begin(),graphDB.end(),std::back_inserter(diff));
+	return diff
+}
+	// loop through each element in vector
+	//for (int i=0; i<noncakmers.size(); i++) {
+		//if graphDB.find(element) != graphDB.end()
+		//if (graphDB.find(noncakmers[i]) == graphDB.end()) {
+			// append element to the diff vector
+		//	diff.push_back(noncakmers[i]);
+		//}
+		// else
+		//else {
+			// kmer found, so do nothing 
+		//	std::cout <<"Key Found";
+		//}	
+
+
 // 0: not feasible, 1: feasible, w/o correction, 2: feasible w/ correction
 int isThreadFeasible(GraphType& g, string& seq, vector<size_t>& noncakmers, size_t thread_cth, bool correction, 
 	bool aln, vector<char>& ops, kmer_aCount_umap& trKmers) {
@@ -1043,21 +1065,6 @@ void CountWords(void *data) {
 					if (verbosity >= 3) { cerr << "Read threaded: " << feasibility0 << feasibility1 << endl; }
 				}
 				// write new kmers
-				vector<size_t> diff;
-	// loop through each element in vector
-				for (int i=0; i<noncakmers0.size(); i++) {
-					//if graphDB.find(element) != graphDB.end()
-					if (graphDB.find(noncakmers0[i]) == graphDB.end()) {
-					// append element to the diff vector
-						diff.push_back(noncakmers0[i]);
-					}
-					// else
-					else {
-						// kmer found, so do nothing 
-						std::cout <<"Key Found";
-					}	
-				}
-					return diff;
 
 				if ((threading and feasibility0 and feasibility1) or not threading) {
 					kmer_aCount_umap &trKmers = trResults[destLocus];
