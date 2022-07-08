@@ -27,10 +27,13 @@
 
 using namespace std;
 
-//typedef unordered_set<size_t> kmer_set;
+//create alias/define type of these declarations, using exisiting types, not delcarations of new types 
+//typedef unordered_set<size_t> kmer_set;\
+//unordered_map --> has key-value pairs with unique keys that identify the element and the mapped value, organized into buckets 
 typedef unordered_map<size_t, uint32_t> kmerCount_umap; // assume count < (2^16 -1)
 typedef unordered_map<size_t, atomic_size_t> kmer_aCount_umap;
 typedef unordered_map<size_t, uint8_t> GraphType;
+//unordered_set stores unique elements in no particular order, fast retrieval of individual elements based on their value, value is the key in this data structure, immutable, cannot be modified once in container, but can be inserted or removed 
 typedef unordered_map<size_t, unordered_set<uint32_t>> kmeruIndex_umap; // assume number of loci < (2^32 -1)
 //typedef unordered_map<size_t, uint32_t> kmerIndex_uint32_umap; // assume number of loci < (2^32 -1)
 typedef unordered_map<size_t, size_t> kmerIndex_uint32_umap;
@@ -112,7 +115,7 @@ string decodeNumericSeq(size_t num, size_t k){
     string seq = "";
     for (size_t i = 0; i < k; ++i){
         seq = baseNumConversion[num % 4] + seq;
-        num >>= 2;
+        num >>= 2; //right shift operator, takes value stored in num, and shifts all its bits to the right 2 places
     }
     return seq;
 }
@@ -135,6 +138,9 @@ size_t getNextKmer(size_t& kmer, size_t beg, string& read, size_t k){
         if (beg + k > rlen){
             return rlen;
         }
+        // find the the first occurence of a value in a sequence, parameters = first input interator, second input iterator, value to find; 
+        //The first iterator i in the range [__first,__last) such that *i == __val, or __last if no such iterator exists.
+        // if the find value is equal to the alphabet+4
         if (find(alphabet, alphabet+4, read[beg + validlen]) == alphabet+4){
             beg = beg + validlen + 1;
             validlen = 0;

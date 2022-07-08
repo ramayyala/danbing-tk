@@ -18,7 +18,7 @@
 #include <atomic>
 
 using namespace std;
-
+//sem_t is an unsigned char 
 sem_t *semreader;
 sem_t *semcount;
 sem_t *semwriter;
@@ -146,6 +146,7 @@ void countDupRemove(vector<kmerIndex_uint32_umap::iterator>& its, vector<kmerInd
 
 void countRemain(vector<PE_KMC>& dup, vector<size_t>& remain) {
     remain.resize(dup.size(), 0);
+	//accumulate computes the sum of the given value from dup.begin to the dup.end with the initial sum being 0. 
     size_t dupsum = std::accumulate(dup.begin(), dup.end(), 0, 
                                     [](size_t partialSum, PE_KMC pe_kmc) { return partialSum + pe_kmc.first + pe_kmc.second; });
     remain[0] = dupsum - dup[0].first - dup[0].second;
@@ -506,6 +507,25 @@ bool find_anchor(GraphType& g, vector<size_t>& kmers, bool aln, vector<char>& op
 	return 1;
 }
 
+// finding difference between non-canonical kmers and RPGG kmers  
+std::vector<size_t> findDiff(vector<size_t>& noncakmers, vector<GraphType>* graphDB) {
+	std::vector<size_t> diff;
+	// loop through each element in vector
+	for (int i=0; i<noncakmers.size(); i++) {
+		//if graphDB.find(element) != graphDB.end()
+		if (graphDB.find(noncakmers[i]) == graphDB.end()) {
+			// append element to the diff vector
+			diff.push_back(noncakmers[i])
+		}
+		// else
+		else {
+			// kmer not found, so do nothing 
+			std::cout <<"Key Found";
+		}	
+	}
+	return diff;
+}
+
 // 0: not feasible, 1: feasible, w/o correction, 2: feasible w/ correction
 int isThreadFeasible(GraphType& g, string& seq, vector<size_t>& noncakmers, size_t thread_cth, bool correction, 
 	bool aln, vector<char>& ops, kmer_aCount_umap& trKmers) {
@@ -626,7 +646,7 @@ int isThreadFeasible(GraphType& g, string& seq, vector<size_t>& noncakmers, size
 						}
 					}
 				}
-				// 1 substitution + 1 insersion
+				// 1 substitution + 1 insertion
 				if (nts1[kmers[i+2] % 4]) {
 					for (size_t nt0 = 0; nt0 < 4; ++nt0) {
 						if (not nts0[nt0]) { continue; }
@@ -740,6 +760,7 @@ int isThreadFeasible(GraphType& g, string& seq, vector<size_t>& noncakmers, size
 				}
 				skip = !txt.get_edit();
 				// longer edits are treated with path-skipping and re-anchoring using find_anchor()
+				//this is probably where mark wants the better algorithm to work 
 			}
 
 			if (skip) {
@@ -1040,6 +1061,12 @@ void CountWords(void *data) {
 					}
 					if (verbosity >= 3) { cerr << "Read threaded: " << feasibility0 << feasibility1 << endl; }
 				}
+				// write new kmers
+				diff1=findDiff(noncakmers0, graphDB)
+				//diff2=findDiff(noncakmers0, graphDB)
+				for (int &i: diff1) {
+					std::cout << i << ' ';
+    			}
 
 				if ((threading and feasibility0 and feasibility1) or not threading) {
 					kmer_aCount_umap &trKmers = trResults[destLocus];
