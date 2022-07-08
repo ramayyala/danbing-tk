@@ -1059,10 +1059,13 @@ void CountWords(void *data) {
 					if (feasibility0 and feasibility1) {
 						noncaVec2CaUmap(noncakmers0, cakmers, ksize);
 						noncaVec2CaUmap(noncakmers1, cakmers, ksize);
-						// write new kmers
-						std::vector<size_t> diff1; 
-						// graphDB is a vector while we need it to be an unordered map, ASK TONY for help here
-						diff1=findDiff(noncakmers0,graphDB[destLocus]);
+						// write new kmers 
+						// by vector<GraphType> graphDB creates a vector containing an unordered map, by indexing by the destLocus, we get the unordered map of that locus
+						std::vector<size_t> diff1=findDiff(noncakmers0,graphDB[destLocus]);
+						for (int &i diff1) {
+							std::cout << i << ' ';
+						}
+
 					}
 					if (verbosity >= 3) { cerr << "Read threaded: " << feasibility0 << feasibility1 << endl; }
 					;
@@ -1081,6 +1084,7 @@ void CountWords(void *data) {
 							assignedloci.push_back(destLocus);
 						}
 					}
+					// trkmers is the dict containg canonical kmers and counts 
 					else { // accumulate trKmers for output
 						if (not threading) {
 							for (size_t i = 0; i < its1.size(); ++i) {
