@@ -526,6 +526,24 @@ std::vector<size_t> findDiff(vector<size_t>& noncakmers, GraphType& graphDB){
 	}
 	return diff;
 }
+// getting kmer count and putting it in a dictionary
+//sort the diff vector first, and and only insert when next element is different 
+std::unordered_map<unsigned,int> noncakmer_count(vector<size_t>& diff){
+	std::unordered_map<unsigned, int> counts;
+	sort(diff.begin(), diff.end());
+	for (int i=0;i<diff.size(); i++){
+		counts[diff[i]]++;
+	}
+	return counts;
+
+	
+	//for (int i=0; i<diff.size(); i++) {
+	//	if (diff[i] != diff[i+1]) {
+	//		int freq = std::count(diff.begin(),diff.end(),i);
+	//		noncaKmer_map.insert({i,freq});
+	//	}	
+	//}	
+}
 
 // 0: not feasible, 1: feasible, w/o correction, 2: feasible w/ correction
 int isThreadFeasible(GraphType& g, string& seq, vector<size_t>& noncakmers, size_t thread_cth, bool correction, 
@@ -904,6 +922,9 @@ void CountWords(void *data) {
     vector<ValueType> srcLoci;
     vector<size_t> poss;
     unordered_map<size_t, msa_umap> msa;
+	//noncanonical kmers vector for storage 
+	vector<size_t> different_kmers;
+	unordered_map<unsigned, int> kmer_counts;
 
     while (true) {
 
@@ -1062,9 +1083,12 @@ void CountWords(void *data) {
 						// write new kmers 
 						// by vector<GraphType> graphDB creates a vector containing an unordered map, by indexing by the destLocus, we get the unordered map of that locus
 						std::vector<size_t> diff1=findDiff(noncakmers0,graphDB[destLocus]);
-						for (int i=0; i<diff1.size(); i++) {
-							std::cout << diff1.at(i) << ' ';
-						}
+						different_kmers.insert(different_kmers.end(),diff1.begin(),diff1.end());
+						//for (int i=0; i<diff1.size(); i++) {
+						//	std::cout << diff1.at(i) << ' ';
+						//}
+
+
 
 					}
 					if (verbosity >= 3) { cerr << "Read threaded: " << feasibility0 << feasibility1 << endl; }
@@ -1136,6 +1160,16 @@ void CountWords(void *data) {
 		        nKmerFiltered_ << "/" << 
 		        nThreadingReads_ << "/" << 
 		        nFeasibleReads_ << endl;
+		//for (int i=0; i<different_kmers.size(); i++) {
+		//	cerr << different_kmers.at(i) << endl;;
+		//}
+		//count kmers 
+		kmer_counts=noncakmer_count(different_kmers);
+		for (auto i : kmer_counts){
+			cerr << "The value: " << i.first << " occurred " << i.second << "times" << endl;
+		}
+    
+
     }
 }
 
@@ -1181,6 +1215,7 @@ int main(int argc, char* argv[]) {
              << endl;
         return 0;
     }
+   //declare data structure to store noncakmers 
    
     vector<string> args(argv, argv+argc);
     bool bait = false, aug = false, threading = false, correction = false, aln = false, aln_minimal=false, g2pan = false, skip1 = true, writeKmerName = false, interleaved;
