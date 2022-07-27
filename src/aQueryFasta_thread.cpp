@@ -535,14 +535,6 @@ std::unordered_map<unsigned,int> noncakmer_count(vector<size_t>& diff){
 		counts[diff[i]]++;
 	}
 	return counts;
-
-	
-	//for (int i=0; i<diff.size(); i++) {
-	//	if (diff[i] != diff[i+1]) {
-	//		int freq = std::count(diff.begin(),diff.end(),i);
-	//		noncaKmer_map.insert({i,freq});
-	//	}	
-	//}	
 }
 
 // 0: not feasible, 1: feasible, w/o correction, 2: feasible w/ correction
@@ -1166,7 +1158,7 @@ void CountWords(void *data) {
 		//count kmers 
 		kmer_counts=noncakmer_count(different_kmers);
 		for (auto i : kmer_counts){
-			cerr << "The value: " << i.first << " occurred " << i.second << "times" << endl;
+			cerr << "The value: " << decodeNumericSeq(i.first,sizeof(i.first)) << " occurred " << i.second << "times" << endl;
 		}
     
 
