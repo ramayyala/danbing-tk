@@ -709,6 +709,17 @@ void writeKmers(string outfpref, T& kmerDB, size_t threshold = 0) {
     fout.close();
 }
 
+//export noncanonical kmers
+void writenoncakmers(string outfpref, unordered_map<unsigned, int> kmer_counts, size_t ksize, size_t threshold = 0) {
+    ofstream fout(outfpref+"_kmers.csv");
+    assert(fout);
+    for (auto i : kmer_counts){
+            if (i.second < threshold) { continue; }
+            fout << decodeNumericSeq(i.first,ksize) << "," << i.second << endl;
+    }
+    fout.close();
+}
+
 void writeKmers(string outfpref, vector<kmerAttr_dict>& kmerAttrDB) {
     ofstream fout(outfpref+".kmers");
     assert(fout);

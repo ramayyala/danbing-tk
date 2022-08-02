@@ -1157,10 +1157,10 @@ void CountWords(void *data) {
 		//}
 		//count kmers 
 		kmer_counts=noncakmer_count(different_kmers);
-		for (auto i : kmer_counts){
-			cerr << "The value: " << decodeNumericSeq(i.first,sizeof(i.first)) << " occurred " << i.second << "times" << endl;
-		}
-    
+		//for (auto i : kmer_counts){
+		//	cerr << decodeNumericSeq(i.first,ksize) << "   " << i.second << endl;
+		//}
+		writenoncakmers("nonca",kmer_counts,ksize);
 
     }
 }
